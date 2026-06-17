@@ -31,15 +31,15 @@ module FFT_coulomb
         real(dp) :: a_skin ! skin thickness
         real(dp) :: R_nuc  ! radius of nuclear
         contains
-        procedure : compute_FFT_coulomb
-        procedure : compute_rho_l
-        procedure : compute_rho_0
+        procedure :: compute_FFT_coulomb
+        procedure :: compute_rho_l
+        procedure :: compute_rho_0
 
     end type FFT_coulomb_type
+    contains
 
     subroutine compute_FFT_coulomb(this)
         class(FFT_coulomb_type), intent(inout) :: this
-        implicit none
          
         !-------------------------------------------------------------------
         ! long range term
@@ -52,17 +52,14 @@ module FFT_coulomb
 
     function compute_rho_l(this,r,l) result(solution)
         class(FFT_coulomb_type), intent(in) :: this
-        implicit none
         real(dp) :: solution
         real(dp), intent(in) :: r,l
-
-        solution = 2.0_dp * r^l * compute_rho_0(r) / (this%R_nuc^l+r^l)
+        solution = 2.0_dp * r**l * this%compute_rho_0(r) / (this%R_nuc**l+r**l)
 
     end function compute_rho_l
 
     function compute_rho_0(this,r ) result(solution)
         class(FFT_coulomb_type), intent(in) :: this
-        implicit none
         real(dp) :: solution
         real(dp), intent(in) :: r
 
